@@ -5,21 +5,27 @@
  */
 import { CardContent, Card } from "@/components/ui/card";
 
+type SummaryCardProps = {
+  headline: string;
+  context: string;
+  discussionPoints: string;
+  takeaways: string;
+};
+
 export function SummaryCard({
   headline,
-  summary,
-}: {
-  headline: string;
-  summary: string[];
-}) {
+  discussionPoints,
+  takeaways,
+  context
+}: SummaryCardProps) {
   return (
     <Card>
       <CardContent className="space-y-4">
         <h2 className="text-xl font-semibold pt-4">{headline}</h2>
         <ul className="list-disc space-y-2 pl-5 text-sm">
-          {summary.map((s, i) => (
-            <li key={i}>{s}</li>
-          ))}
+          <li>{context}</li>
+          <li>{discussionPoints}</li>
+          <li>{takeaways}</li>
         </ul>
       </CardContent>
     </Card>
