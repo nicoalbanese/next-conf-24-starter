@@ -16,6 +16,8 @@ export default function Page() {
             onSubmit={(e) => {
               e.preventDefault();
               setLoading(true);
+              // extract appointment
+              setLoading(false);
             }}
           >
             <Input name="appointment" />
