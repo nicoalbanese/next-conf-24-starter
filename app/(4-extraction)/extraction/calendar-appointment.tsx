@@ -1,19 +1,14 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
-interface Attendee {
-  name: string
-  email: string
-  avatar: string
-}
-
-interface AppointmentDetailsProps {
-  title: string
-  date: string
-  startTime: string
-  endTime: string
-  location: string
-  attendees: Attendee[]
+export interface AppointmentDetailsProps {
+  title: string;
+  date: string;
+  startTime?: string;
+  endTime?: string;
+  location?: string;
+  attendees?: string[];
+  emoji?: string;
 }
 
 export function AppointmentDetails({
@@ -22,7 +17,8 @@ export function AppointmentDetails({
   startTime,
   endTime,
   location,
-  attendees
+  attendees,
+  emoji,
 }: AppointmentDetailsProps) {
   return (
     <Card>
@@ -31,11 +27,13 @@ export function AppointmentDetails({
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="space-y-2">
-          <h3 className="text-sm font-medium">Title</h3>
-          <p className="text-sm">{title || "No title set"}</p>
+          <h3 className="text-sm font-bold">Title</h3>
+          <p className="text-sm">
+            {title || "No title set"} {emoji}
+          </p>
         </div>
         <div className="space-y-2">
-          <h3 className="text-sm font-medium">Date & Time</h3>
+          <h3 className="text-sm font-bold">Date & Time</h3>
           <p className="text-sm">
             {date ? `${date}, ` : ""}
             {startTime && endTime
@@ -44,21 +42,27 @@ export function AppointmentDetails({
           </p>
         </div>
         <div className="space-y-2">
-          <h3 className="text-sm font-medium">Location</h3>
+          <h3 className="text-sm font-bold">Location</h3>
           <p className="text-sm">{location || "No location set"}</p>
         </div>
         <div className="space-y-2">
-          <h3 className="text-sm font-medium">Attendees</h3>
+          <h3 className="text-sm font-bold">Attendees</h3>
           <div className="flex flex-wrap gap-2">
-            {attendees.map((attendee, index) => (
+            {attendees?.map((attendee, index) => (
               <div key={index} className="flex items-center space-x-2">
                 <Avatar className="h-8 w-8">
-                  <AvatarImage src={attendee.avatar} alt={attendee.name} />
-                  <AvatarFallback>{attendee.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
+                  <AvatarFallback>
+                    {attendee
+                      .split(" ")
+                      .map((n) => n[0])
+                      .join("")}
+                  </AvatarFallback>
                 </Avatar>
                 <div>
-                  <p className="text-sm font-medium">{attendee.name}</p>
-                  <p className="text-xs text-muted-foreground">{attendee.email}</p>
+                  <p className="text-sm font-bold">{attendee}</p>
+                  <p className="text-xs text-muted-foreground">
+                    {attendee.toLowerCase().split(" ").join("_")}@company.com
+                  </p>
                 </div>
               </div>
             ))}
@@ -66,5 +70,5 @@ export function AppointmentDetails({
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }
